@@ -478,6 +478,7 @@
 .icon-arrow-short {
   width: 11px;
   height: 11px;
+  transition:all .3s ease-out;
 }
 
 .page-title-accessory {
@@ -578,4 +579,8 @@
     top: 0;
     padding-top: 20px;
   }
+}
+.btn:hover{
+  background-color: #ffe5e6;
+  transition:all  .3s  ease-out;
 }

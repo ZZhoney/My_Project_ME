@@ -221,6 +221,14 @@ table {
 .clearfix {
   zoom: 1;
 }
+.list-wrap ul::after{
+  visibility: hidden;
+  display: block;
+  content: " ";
+  height:0;
+  clear: both;
+}
+
 
 @media print {
   body,
@@ -1305,4 +1313,8 @@ html {
   .md-modal.modal-normal .content-tit {
     font-size: 12px;
   }
+}
+.sort-up{
+  transform:rotate(180deg);
+  transition:all .3s  ease-out;
 }

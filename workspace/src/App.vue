@@ -6,8 +6,25 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+ mounted() {this.getdata();},
+  methods:{
+    getdata(){
+      axios.get('/',{
+
+      }).then(function(response){
+        alert(response.data.msg);
+
+
+      })
+
+
+
+
+    }
+  }
 }
+
 </script>
 
 <style>

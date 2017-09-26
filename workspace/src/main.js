@@ -19,10 +19,13 @@ Vue.use(Vuex);
 Vue.use(VueLazyload, {
   loading: 'static/loading-svg/loading-bars.svg',
   try: 3 // default 1
-})
+});
+Vue.use(infiniteScroll);
 
 Vue.filter("currency",currency);
 Vue.config.productionTip = false;
+
+Vue.filter("currency",currency);//全局过滤器
 
 const store = new Vuex.Store({
   state: {
@@ -36,6 +39,9 @@ const store = new Vuex.Store({
     },
     updateCartCount(state,cartCount){
       state.cartCount += cartCount;
+    },
+    initCartCount(state,cartCount){
+      state.cartCount=cartCount;
     }
   }
 });

@@ -4,17 +4,19 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var ejs = require('ejs')
-var index = require('./routes/index');
-var users = require('./routes/users');
-var goods = require('./routes/goods')
+var ejs=require('ejs');
+
 
 var app = express();
 
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.engine('.html',ejs.__express);
+// app.engine('.html',ejs.__express);
+app.engine('.html',require('ejs').renderFile);
 app.set('view engine', 'html');
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -23,27 +25,44 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(function (req,res,next) {
+//登录拦截器
+app.use(function(req,res,next){
   if(req.cookies.userId){
     next();
   }else{
-      console.log("url:"+req.originalUrl);
-      if(req.originalUrl=='/users/login' || req.originalUrl=='/users/logout' || req.originalUrl.indexOf('/goods/list')>-1){
-          next();
-      }else{
-          res.json({
-            status:'10001',
-            msg:'当前未登录',
-            result:''
-          });
-      }
+    //console.log(`path:${req.path},originalUrl:${req.originalUrl}`)
+    if(req.originalUrl=='/users/login' || req.originalUrl=='/users/logout'|| req.originalUrl.indexOf("/goods/list")>-1){
+      next();
+    }else{
+      // alert("当前未登录");
+      res.json({
+        status:'10001',
+        msg:'当前未登录',
+        result:''
+      });
+
+    }
   }
 });
 
+
+
+var index = require('./routes/index');
+var users = require('./routes/users');
+var goods=require('./routes/goods');
+
+
+
+
+
 app.use('/', index);
 app.use('/users', users);
-app.use('/goods', goods);
+app.use('/goods',goods);
+
+
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -52,7 +71,7 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// error handler
+// error handler处理捕获404、error
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
